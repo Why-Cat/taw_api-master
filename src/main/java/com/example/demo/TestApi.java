@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("api")
 public class TestApi {
     @Autowired
-    private ClassesDB classesDB;
+    private Klasy klasy;
     private Integer addedItemsCounter = 1;
     @GetMapping("/ping")
     public String ping()
@@ -20,37 +20,37 @@ public class TestApi {
         return "Endpoint OK";
     }
 
-    @PostMapping(value="/zajecia", consumes = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(value= "/activities", consumes = MediaType.APPLICATION_JSON_VALUE,
     produces = MediaType.APPLICATION_JSON_VALUE)
-    public void addClass(@RequestBody ClassDto newClass)
+    public void addClass(@RequestBody Activity newClass)
     {
         newClass.setId(addedItemsCounter++);
-        classesDB.add(newClass);
+        klasy.add(newClass);
     }
 
-    @GetMapping(value="/zajecia", consumes = MediaType.APPLICATION_JSON_VALUE,
+    @GetMapping(value= "/activities", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ClassDto>> getClasses(
-            @Nullable @RequestParam("nazwa") String name,
+    public ResponseEntity<List<Activity>> getClasses(
+            @Nullable @RequestParam("nazwa") String nazwa,
             @Nullable @RequestParam("ects") Integer ects,
-            @Nullable @RequestParam("sala") String room,
-            @Nullable @RequestParam("egzamin") String exam
+            @Nullable @RequestParam("sala") String sala,
+            @Nullable @RequestParam("egzamin") String egzamin
             )
     {
-        return ResponseEntity.ok(classesDB.get(name, ects, room, exam));
+        return ResponseEntity.ok(klasy.get(nazwa, ects, sala, egzamin));
     }
 
-    @DeleteMapping(value= "/zajecia")
+    @DeleteMapping(value= "/activities")
     public void deleteClasses()
     {
-        classesDB.clean();
+        klasy.clean();
     }
 
-    @GetMapping(value="/zajecia/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
+    @GetMapping(value= "/activities/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ClassDto> activitiesList(@PathVariable(value="id") String id)
+    public ResponseEntity<Activity> activitiesList(@PathVariable(value="id") String id)
     {
-        ClassDto res = classesDB.getById(Integer.valueOf(id));
+        Activity res = klasy.getById(Integer.valueOf(id));
         if(res != null) {
             return ResponseEntity.ok(res);
         } else {
@@ -58,10 +58,10 @@ public class TestApi {
         }
     }
 
-    @DeleteMapping(value="/zajecia/{id}")
+    @DeleteMapping(value= "/activities/{id}")
     public ResponseEntity activitiesList(@PathVariable(value="id") Integer id)
     {
-        boolean res = classesDB.clean(id);
+        boolean res = klasy.clean(id);
         if (res) {
             return ResponseEntity.ok().build();
         } else {
