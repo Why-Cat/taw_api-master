@@ -101,7 +101,7 @@ Body:
 ## 3. Pobranie przedmiotów, które mają egzamin,
 ```
 Metoda: GET
-Adres zasobu: http://localhost:8080/api/activities?egzamin=tak
+Adres zasobu: http://localhost:8080/api/activities?egzamin=true
 Nagłówki: Content-Type: application/json
 Request Body: brak
 
@@ -164,7 +164,7 @@ Body:
 ## 5. Pobranie przedmiotów które nie mają egzaminu i odbywają się w sali 208,
 ```
 Metoda: GET
-Adres zasobu: http://localhost:8080/api/activities?egzamin=nie&sala=208
+Adres zasobu: http://localhost:8080/api/activities?egzamin=false&sala=208
 Nagłówki: Content-Type: application/json
 Request Body: brak
 
